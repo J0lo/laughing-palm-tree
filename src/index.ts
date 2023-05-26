@@ -30,13 +30,11 @@ export const updateSelectedServices = (
                 }
                 else {
                     let otherRequiredService = relatedService.requires.filter(x => x !== action.service);
-                    if (previouslySelectedServices.some(x => !otherRequiredService.includes(x))) {
+                    if (!otherRequiredService.some(x => previouslySelectedServices.includes(x as ServiceType))) {
                         previouslySelectedServices = previouslySelectedServices.filter(x => x !== relatedService.service);
                     }
                 }
-
             });
-            previouslySelectedServices = previouslySelectedServices.filter(x => !relatedServices.some(y => y.service === x));
         }
 
         return previouslySelectedServices.filter(x => x !== action.service)
