@@ -49,9 +49,9 @@ export const calculatePrice = (selectedServices: ServiceType[], selectedYear: Se
     let price = 0
 
     selectedServices.forEach(service => {
-        let servicePrice = singles.filter(x => x.service === service && x.year == selectedYear)[0].price;
-        price += servicePrice;      
+        let servicePrice = singles.filter(x => x.service === service && (x.year == selectedYear || x.year === null))[0].price;
+        price += servicePrice;
     });
 
-    return { basePrice: price, finalPrice: 0 };
+    return { basePrice: price, finalPrice: price };
 };
