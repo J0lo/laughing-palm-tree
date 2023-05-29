@@ -204,3 +204,43 @@ describe.each([
         });
     }
 );
+
+describe.each([
+    [2020, 400],
+    [2021, 400],
+    [2022, 400]
+])(
+    "calcularePrice.videoRecordingWithPhotographyWithTwoDayEvent (%i increase by %i)",
+    (year: ServiceYear, increase) => {
+        test("price matches requirements", () => {
+            const withoutSession = calculatePrice(["VideoRecording", "Photography"], year);
+            const withSession = calculatePrice(["VideoRecording", "Photography", "TwoDayEvent"], year);
+
+            const priceChangeWithSession = withSession.finalPrice - withoutSession.finalPrice;
+
+            expect(withSession.basePrice).toBeGreaterThan(0);
+            expect(withSession.finalPrice).toBeGreaterThan(0);
+            expect(priceChangeWithSession).toEqual(increase);
+        });
+    }
+);
+
+describe.each([
+    [2020, 300],
+    [2021, 300],
+    [2022, 300]
+])(
+    "calcularePrice.videoRecordingWithBlurayPackage (%i increase by %i)",
+    (year: ServiceYear, increase) => {
+        test("price matches requirements", () => {
+            const withoutSession = calculatePrice(["VideoRecording"], year);
+            const withSession = calculatePrice(["VideoRecording", "BlurayPackage"], year);
+
+            const priceChangeWithSession = withSession.finalPrice - withoutSession.finalPrice;
+
+            expect(withSession.basePrice).toBeGreaterThan(0);
+            expect(withSession.finalPrice).toBeGreaterThan(0);
+            expect(priceChangeWithSession).toEqual(increase);
+        });
+    }
+);

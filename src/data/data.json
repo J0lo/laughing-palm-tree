@@ -11,24 +11,23 @@
         { "service": "WeddingSession", "year": null, "price": 600 }
     ],
     "servicePricesPackage": [
+        { "services": ["Photography", "VideoRecording", "WeddingSession"], "year": 2020, "price": 2500 },
+        { "services": ["Photography", "VideoRecording", "WeddingSession"], "year": 2021, "price": 2600 },
+        { "services": ["Photography", "VideoRecording", "WeddingSession"], "year": 2022, "price": 2500 },
+
         { "services": ["Photography", "VideoRecording"], "year": 2020, "price": 2200 },
         { "services": ["Photography", "VideoRecording"], "year": 2021, "price": 2300 },
         { "services": ["Photography", "VideoRecording"], "year": 2022, "price": 2500 },
 
         { "services": ["Photography", "WeddingSession"], "year": 2020, "price": 2000 },
         { "services": ["Photography", "WeddingSession"], "year": 2021, "price": 2100 },
-        { "services": ["Photography", "WeddingSession"], "year": 2022, "price": 2200 },
+        { "services": ["Photography", "WeddingSession"], "year": 2022, "price": 1900 },
 
         { "services": ["VideoRecording", "WeddingSession"], "year": 2020, "price": 2000 },
         { "services": ["VideoRecording", "WeddingSession"], "year": 2021, "price": 2100 },
-        { "services": ["VideoRecording", "WeddingSession"], "year": 2022, "price": 2200 },
-        
-        { "services": ["Photography", "VideoRecording", "WeddingSession"], "year": 2020, "price": 2500 },
-        { "services": ["Photography", "VideoRecording", "WeddingSession"], "year": 2021, "price": 2600 },
-        { "services": ["Photography", "VideoRecording", "WeddingSession"], "year": 2022, "price": 2800 }
+        { "services": ["VideoRecording", "WeddingSession"], "year": 2022, "price": 2200 }
     ],
     "serviceSpecialCases": [
-        { "service": "WeddingSession", "price": 0, "conditions": [ { "otherServices": ["Photography", "VideoRecording"], "year": 2022} ]},
         { "service": "BlurayPackage", "price": 300, "conditions": [ { "otherServices": ["VideoRecording"], "year": null}] },
         { "service": "TwoDayEvent", "price": 400, "conditions": [ { "otherServices": ["Photography", "VideoRecording"], "year": null} ] }
     ],

@@ -45,12 +45,34 @@ export const updateSelectedServices = (
 
 export const calculatePrice = (selectedServices: ServiceType[], selectedYear: ServiceYear) => {
     let repo = new DataRepository();
-    let singles = repo.getServicePricesSingle();
-    let price = 0
+    let price = 0;
+    let servicesLeft = selectedServices;
 
-    selectedServices.forEach(service => {
-        let servicePrice = singles.filter(x => x.service === service && (x.year == selectedYear || x.year === null))[0].price;
-        price += servicePrice;
+    let pricePackages = repo.getServicePricesPackage().filter(p => p.year === selectedYear || p.year == null);
+    let singles = repo.getServicePricesSingle();
+    let specialCases = repo.getServiceSpecialCases();
+
+    pricePackages.forEach(pricePackage => {
+        if (pricePackage.services.every(s => servicesLeft.includes(s as ServiceType))) {
+            price += pricePackage.price;
+            servicesLeft = servicesLeft.filter(s => !pricePackage.services.includes(s));
+        }
+    });
+
+    servicesLeft.forEach(service => {
+        let currentService = singles.filter(x => x.service === service && (x.year == selectedYear || x.year === null));
+        if (currentService.length === 1) {
+            let servicePrice = currentService[0].price;
+            price += servicePrice;
+            servicesLeft = servicesLeft.filter(s => s !== service);
+        }
+    });
+
+    servicesLeft.forEach(service => {
+        let specialCaseService = specialCases.filter(sc => sc.service === service);
+        if (specialCaseService.length === 1 && selectedServices.some(s => specialCaseService[0].service.includes(s))) {
+            price += specialCaseService[0].price;
+        }
     });
 
     return { basePrice: price, finalPrice: price };
