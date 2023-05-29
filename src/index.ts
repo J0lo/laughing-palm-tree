@@ -10,37 +10,38 @@ export const updateSelectedServices = (
     let repo = new DataRepository();
     let constraints = repo.getServiceRequiredOtherServices();
     let requiredOtherServices = constraints.filter(x => x.service === action.service);
+    let selectedServices = [...previouslySelectedServices];
 
     if(requiredOtherServices.length === 1) {
-        let doesContain = previouslySelectedServices.some(x => requiredOtherServices[0].requires.includes(x));
+        let doesContain = selectedServices.some(x => requiredOtherServices[0].requires.includes(x));
         if (!doesContain) {
-            return previouslySelectedServices;
+            return selectedServices;
         }
     }
 
-    if (action.type === "Select" && !previouslySelectedServices.includes(action.service)) {
-        previouslySelectedServices.push(action.service);
+    if (action.type === "Select" && !selectedServices.includes(action.service)) {
+        selectedServices.push(action.service);
     }
-    else if (action.type === "Deselect" && previouslySelectedServices.includes(action.service)) {
+    else if (action.type === "Deselect" && selectedServices.includes(action.service)) {
         let relatedServices = constraints.filter(x => x.requires.includes(action.service));
         if (relatedServices.length > 0) {
             relatedServices.forEach(relatedService => {
                 if (relatedService.requires.length === 1) {
-                    previouslySelectedServices = previouslySelectedServices.filter(x => x !== relatedService.service);
+                    selectedServices = selectedServices.filter(x => x !== relatedService.service);
                 }
                 else {
                     let otherRequiredService = relatedService.requires.filter(x => x !== action.service);
-                    if (!otherRequiredService.some(x => previouslySelectedServices.includes(x as ServiceType))) {
-                        previouslySelectedServices = previouslySelectedServices.filter(x => x !== relatedService.service);
+                    if (!otherRequiredService.some(x => selectedServices.includes(x as ServiceType))) {
+                        selectedServices = selectedServices.filter(x => x !== relatedService.service);
                     }
                 }
             });
         }
 
-        return previouslySelectedServices.filter(x => x !== action.service)
+        return selectedServices.filter(x => x !== action.service)
     }
 
-    return previouslySelectedServices;
+    return selectedServices;
 };
 
 export const calculatePrice = (selectedServices: ServiceType[], selectedYear: ServiceYear) => {
